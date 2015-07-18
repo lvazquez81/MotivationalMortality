@@ -12,6 +12,7 @@ namespace MotivationalMortailityWeb.Controllers
     {
         public ActionResult Index()
         {
+            LifeWeekCalculator calc = new LifeWeekCalculator(new TimeProvider());
             var view = new MainViewModel();
             view.Birthday = new DateTime(1981, 04, 29);
             view.Messsage = "You are 34 years old and have wasted 67 weeks out of 100.";

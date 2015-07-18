@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITimeProvider.cs" />
+    <Compile Include="LifeReport.cs" />
     <Compile Include="LifeWeekCalculator.cs" />
+    <Compile Include="MortalityReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeProvider.cs" />
   </ItemGroup>

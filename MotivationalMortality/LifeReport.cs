@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MotivationalMortality
 {
-    public class TimeProvider : ITimeProvider
+    public class LifeReport
     {
-        public DateTime GetCurrentDate()
-        {
-            return DateTime.Now;
-        }
+        public string Name { get; set; }
+        public int WeeksLived { get; set; }
+        public int YearsLived { get; set; }
     }
 }
