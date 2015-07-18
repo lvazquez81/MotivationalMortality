@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MotivationalMortailityWeb.Models;
+using MotivationalMortality;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +12,11 @@ namespace MotivationalMortailityWeb.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var view = new MainViewModel();
+            view.Birthday = new DateTime(1981, 04, 29);
+            view.Messsage = "You are 34 years old and have wasted 67 weeks out of 100.";
+            view.WeeksGraphic = "############################################################";
+            return View(view);
         }
     }
 }

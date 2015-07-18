@@ -12,7 +12,7 @@ namespace MotivationalMortailityWeb.Models
         [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
         
-        public DateTime Today { get; set; }
-        public int NumberOfWeeks { get; set; }
+        public string Messsage { get; set; }
+        public string WeeksGraphic { get; set;  }
     }
 }
