@@ -17,8 +17,8 @@ namespace MotivationalMortality
             _timeProvider = timeProvider;
             _mortalityProfiles = new CsvMortalityProfileRepo(csvFilename);
         }
-        
-        public LifeReport GetLifeReport(string name, string country, GenderType gender, DateTime myBirthday)
+
+        public LifeReport GetLifeReport(DateTime myBirthday, GenderType gender, string country)
         {
             LifeWeekCalculator calc = new LifeWeekCalculator(_timeProvider);
             MortalityProfile expectancy = _mortalityProfiles.GetProfileByCountry(country);
@@ -27,7 +27,6 @@ namespace MotivationalMortality
 
             return new LifeReport()
             {
-                Name = name,
                 WeeksLived = calc.GetWeeksFromLife(myBirthday),
                 YearsLived = calc.GetYearsFromLife(myBirthday),
                 ExpectedYears = expectedLifeExpectancyInYears,
@@ -38,6 +37,12 @@ namespace MotivationalMortality
         private int calculateWeeksForYears(int years)
         {
             return years * 12 * 4;
+        }
+
+        public static string FormatMessage(LifeReport report)
+        {
+            return string.Format("You are {0} years old ({1} weeks). You have {2} weeks left.", 
+                report.YearsLived, report.WeeksLived, (report.ExpectedWeeks - report.WeeksLived));
         }
     }
 }

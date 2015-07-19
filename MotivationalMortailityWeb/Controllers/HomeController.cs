@@ -15,7 +15,6 @@ namespace MotivationalMortailityWeb.Controllers
         public ActionResult Index()
         {
             var view = new RequestProfileViewModel();
-            view.Name = "Luis";
             view.Birthday = new DateTime(1981, 04, 29);
             view.CountryName = "Mexico";
             view.Gender = GenderType.Male;
@@ -27,17 +26,12 @@ namespace MotivationalMortailityWeb.Controllers
         {
             string csvProfilesPath = Server.MapPath(@"bin\MortalityProfiles.csv");
             MortalityReporter reporter = new MortalityReporter(new TimeProvider(), csvProfilesPath);
-            LifeReport report = reporter.GetLifeReport(view.Name, view.CountryName, view.Gender.Value, view.Birthday.Value);
+            LifeReport report = reporter.GetLifeReport(view.Birthday.Value, view.Gender.Value, view.CountryName);
 
             ViewProfileViewModel responseView = new ViewProfileViewModel(view);
-            responseView.Messsage = FormatMessage(report.Name, report.YearsLived, report.WeeksLived);
+            responseView.Messsage = MortalityReporter.FormatMessage(report);
             responseView.LifeExpectancyGraph = CreateExpectancyGraph(report.WeeksLived, report.ExpectedWeeks);
             return this.View("Report", responseView);
-        }
-
-        private static string FormatMessage(string name, int age, int numberofWeeks)
-        {
-            return string.Format("{0} is {1} years old and has lived {2} weeks.", name, age, numberofWeeks);
         }
 
         private static string CreateExpectancyGraph(int weeksLived, int weeksLifeExpectancy)
@@ -48,7 +42,6 @@ namespace MotivationalMortailityWeb.Controllers
             string weeksLeft = string.Concat(Enumerable.Repeat<string>(".", difference));
 
             return string.Format("{0}{1}", livedGraph, weeksLeft);
-           
         }
     }
 }

@@ -8,7 +8,6 @@ namespace MotivationalMortality
 {
     public class LifeReport
     {
-        public string Name { get; set; }
         public int WeeksLived { get; set; }
         public int YearsLived { get; set; }
         public int ExpectedYears { get; set; }

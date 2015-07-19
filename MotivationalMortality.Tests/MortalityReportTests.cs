@@ -14,7 +14,6 @@ namespace MotivationalMortality.Tests
         [Test]
         public void MortalityReport_WhenProvidingDate_ReturnsAgeAndWeeks()
         {
-            string myName = "Luis Vazquez";
             string myCountry = "Mexico";
             DateTime myBirthday = new DateTime(1981, 04, 29);
             GenderType myGender = GenderType.Male;
@@ -23,11 +22,9 @@ namespace MotivationalMortality.Tests
             myTime.Setup(x => x.GetCurrentDate()).Returns(new DateTime(2015, 04, 29));
 
             MortalityReporter reporter = new MortalityReporter(myTime.Object, "MortalityProfiles.csv");
-            LifeReport report = reporter.GetLifeReport(myName, myCountry, myGender, myBirthday);
+            LifeReport report = reporter.GetLifeReport(myBirthday, myGender, myCountry);
 
             Assert.IsNotNull(report);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(report.Name));
-            Assert.AreEqual("Luis Vazquez", report.Name);
             Assert.IsTrue(report.WeeksLived > 0);
             Assert.IsTrue(report.YearsLived > 0);
             Assert.AreEqual(34, report.YearsLived);

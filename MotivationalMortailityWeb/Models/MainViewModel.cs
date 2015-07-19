@@ -9,8 +9,6 @@ namespace MotivationalMortailityWeb.Models
 {
     public class RequestProfileViewModel
     {
-        public string Name { get; set; }
-        
         [Required]
         [DataType(DataType.Date)]
         public DateTime? Birthday { get; set; }
@@ -25,16 +23,8 @@ namespace MotivationalMortailityWeb.Models
 
     public class ViewProfileViewModel : RequestProfileViewModel
     {
-        public ViewProfileViewModel()
-        {
-            this.Name = "";
-            this.CountryName = "";
-            this.Gender = null;
-        }
-        
         public ViewProfileViewModel(RequestProfileViewModel view)
         {
-            this.Name = view.Name;
             this.CountryName = view.CountryName;
             this.Gender = view.Gender;
         }
