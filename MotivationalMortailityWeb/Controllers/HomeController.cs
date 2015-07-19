@@ -24,8 +24,8 @@ namespace MotivationalMortailityWeb.Controllers
         [HttpPost]
         public ActionResult Index(MainViewModel view)
         {
-            MortalityReporter reporter = new MortalityReporter(new TimeProvider());
-            LifeReport report = reporter.GetLifeReport("demo", view.Birthday);
+            MortalityReporter reporter = new MortalityReporter(new TimeProvider(), "MortalityProfiles.csv");
+            LifeReport report = reporter.GetLifeReport("demo", "Mexico", true, view.Birthday);
 
             view.Messsage = FormatMessage(report.Name, report.YearsLived, report.WeeksLived);
             view.WeeksGraphic = CreateWeeksGraphic(report.WeeksLived);

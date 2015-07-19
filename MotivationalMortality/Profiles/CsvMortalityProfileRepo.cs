@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using MotivationalMortality.Profiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,9 +7,9 @@ using System.Linq;
 
 namespace MotivationalMortality
 {
-    public class CsvMortalityProfileRepo
+    public class CsvMortalityProfileRepo : IMortalityProfileRepository
     {
-        private readonly string _csvFile;
+        private readonly IList<MortalityProfile> _profiles;
 
         private const string HEADER_COUNTRY_AND_YEAR = "Country; Year";
         private const string HEADER_AGE_AVERAGE = "Life expectancy at birth (years); Both sexes";
@@ -17,24 +18,27 @@ namespace MotivationalMortality
 
         public CsvMortalityProfileRepo(string csvFilename)
         {
+            if (string.IsNullOrWhiteSpace(csvFilename))
+                throw new FileNotFoundException("Did not provide csv filename: " + csvFilename);
+
             if (!File.Exists(csvFilename))
                 throw new FileNotFoundException("Csv file not found in: " + csvFilename);
 
-            _csvFile = csvFilename;
+            _profiles = readAllCsvData(csvFilename);
         }
 
-        public IList<MortalityProfile> GetProfiles()
+        public IList<MortalityProfile> GetAllProfiles()
         {
-            var results = from x in readAllCsvData()
+            var results = from x in _profiles
                           where x.StatisticYear == 2013
                           select x;
 
             return results.ToList<MortalityProfile>();
         }
 
-        private IList<MortalityProfile> readAllCsvData()
+        private IList<MortalityProfile> readAllCsvData(string csvFilename)
         {
-            TextReader csvText = File.OpenText(_csvFile);
+            TextReader csvText = File.OpenText(csvFilename);
             var csv = new CsvReader(csvText);
             csv.Configuration.HasHeaderRecord = true;
             List<MortalityProfile> data = new List<MortalityProfile>();
@@ -66,6 +70,13 @@ namespace MotivationalMortality
             int indexOfDelimiter = csvCountryValue.IndexOf(";");
             string yearValue = csvCountryValue.Substring(indexOfDelimiter + 1, csvCountryValue.Length - indexOfDelimiter - 1);
             return Convert.ToInt32(yearValue.Trim());
+        }
+
+        public MortalityProfile GetProfileByCountry(string country)
+        {
+            return (from x in _profiles
+                   where x.CountryName.Equals(country)
+                   select x).FirstOrDefault();
         }
     }
 }

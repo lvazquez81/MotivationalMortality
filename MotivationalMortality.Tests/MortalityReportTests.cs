@@ -18,8 +18,8 @@ namespace MotivationalMortality.Tests
             Mock<ITimeProvider> myTime = new Mock<ITimeProvider>();
             myTime.Setup(x => x.GetCurrentDate()).Returns(new DateTime(2015, 04, 29));
 
-            MortalityReporter reporter = new MortalityReporter(myTime.Object);
-            LifeReport report = reporter.GetLifeReport("Luis Vazquez", myBirthday);
+            MortalityReporter reporter = new MortalityReporter(myTime.Object, "MortalityProfiles.csv");
+            LifeReport report = reporter.GetLifeReport("Luis Vazquez", "Mexico", true, myBirthday);
 
             Assert.IsNotNull(report);
             Assert.IsFalse(string.IsNullOrWhiteSpace(report.Name));

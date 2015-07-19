@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Profiles\IMortalityProfileRepository.cs" />
     <Compile Include="Profiles\IProfileRepository.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="Profiles\CsvMortalityProfileRepo.cs" />
