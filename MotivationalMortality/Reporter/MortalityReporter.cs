@@ -18,18 +18,20 @@ namespace MotivationalMortality
             _mortalityProfiles = new CsvMortalityProfileRepo(csvFilename);
         }
         
-        public LifeReport GetLifeReport(string name, string country, bool isMale, DateTime myBirthday)
+        public LifeReport GetLifeReport(string name, string country, GenderType gender, DateTime myBirthday)
         {
             LifeWeekCalculator calc = new LifeWeekCalculator(_timeProvider);
             MortalityProfile expectancy = _mortalityProfiles.GetProfileByCountry(country);
+
+            int expectedLifeExpectancyInYears = (gender == GenderType.Male) ? expectancy.AverageMaleAge : expectancy.AverageFemaleAge;
 
             return new LifeReport()
             {
                 Name = name,
                 WeeksLived = calc.GetWeeksFromLife(myBirthday),
                 YearsLived = calc.GetYearsFromLife(myBirthday),
-                ExpectedYears = isMale? expectancy.AverageMaleAge : expectancy.AverageFemaleAge,
-                ExpectedWeeks = calculateWeeksForYears(isMale ? expectancy.AverageMaleAge : expectancy.AverageFemaleAge)
+                ExpectedYears = expectedLifeExpectancyInYears,
+                ExpectedWeeks = calculateWeeksForYears(expectedLifeExpectancyInYears)
             };
         }
 

@@ -11,45 +11,44 @@ namespace MotivationalMortailityWeb.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpPost]
+        [HttpGet]
         public ActionResult Index()
         {
-            var view = new MainViewModel();
-            view.Birthday = DateTime.Now;
-            view.Messsage = "";
-            view.WeeksGraphic = "";
+            var view = new RequestProfileViewModel();
+            view.Name = "Luis";
+            view.Birthday = new DateTime(1981, 04, 29);
+            view.CountryName = "Mexico";
+            view.Gender = GenderType.Male;
             return View(view);
         }
 
         [HttpPost]
-        public ActionResult Index(MainViewModel view)
+        public ActionResult Index(RequestProfileViewModel view)
         {
-            MortalityReporter reporter = new MortalityReporter(new TimeProvider(), "MortalityProfiles.csv");
-            LifeReport report = reporter.GetLifeReport("demo", "Mexico", true, view.Birthday);
+            string csvProfilesPath = Server.MapPath(@"bin\MortalityProfiles.csv");
+            MortalityReporter reporter = new MortalityReporter(new TimeProvider(), csvProfilesPath);
+            LifeReport report = reporter.GetLifeReport(view.Name, view.CountryName, view.Gender.Value, view.Birthday.Value);
 
-            view.Messsage = FormatMessage(report.Name, report.YearsLived, report.WeeksLived);
-            view.WeeksGraphic = CreateWeeksGraphic(report.WeeksLived);
-            return View(view);
+            ViewProfileViewModel responseView = new ViewProfileViewModel(view);
+            responseView.Messsage = FormatMessage(report.Name, report.YearsLived, report.WeeksLived);
+            responseView.LifeExpectancyGraph = CreateExpectancyGraph(report.WeeksLived, report.ExpectedWeeks);
+            return this.View("Report", responseView);
         }
 
         private static string FormatMessage(string name, int age, int numberofWeeks)
         {
-            return string.Format("{0} is {1} years old and has lived {3} weeks.", name, age, numberofWeeks);
+            return string.Format("{0} is {1} years old and has lived {2} weeks.", name, age, numberofWeeks);
         }
 
-        private static string CreateWeeksGraphic(int numberOfWeeks)
+        private static string CreateExpectancyGraph(int weeksLived, int weeksLifeExpectancy)
         {
-            StringBuilder weeksGraphic = new StringBuilder();
-            for (int i = 0; i < numberOfWeeks; i++)
-            {
-                weeksGraphic.Append("...... ");
+            int difference = weeksLifeExpectancy - weeksLived;
+            
+            string livedGraph = string.Concat(Enumerable.Repeat<string>("x", weeksLived));
+            string weeksLeft = string.Concat(Enumerable.Repeat<string>(".", difference));
 
-                if (i % 12 == 0)
-                {
-                    weeksGraphic.AppendLine("<br/>");
-                }
-            }
-            return weeksGraphic.ToString();
+            return string.Format("{0}{1}", livedGraph, weeksLeft);
+           
         }
     }
 }

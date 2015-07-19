@@ -42,14 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CountryCatalog.cs" />
+    <Compile Include="GenderCatalog.cs" />
     <Compile Include="Profiles\IMortalityProfileRepository.cs" />
     <Compile Include="Profiles\IProfileRepository.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="Profiles\CsvMortalityProfileRepo.cs" />
-    <Compile Include="LifeReport.cs" />
+    <Compile Include="Reporter\LifeReport.cs" />
     <Compile Include="LifeWeekCalculator.cs" />
     <Compile Include="Profiles\MortalityProfile.cs" />
-    <Compile Include="MortalityReporter.cs" />
+    <Compile Include="Reporter\MortalityReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeProvider.cs" />
   </ItemGroup>
