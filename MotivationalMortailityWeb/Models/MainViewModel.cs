@@ -14,7 +14,8 @@ namespace MotivationalMortailityWeb.Models
         public DateTime? Birthday { get; set; }
 
         [Required]
-        public string CountryName { get; set; }
+        public string SelectedCountry { get; set; }
+        public IList<string> Countries { get; set; }
 
         [Required]
         [Range(1,2)]
@@ -25,8 +26,10 @@ namespace MotivationalMortailityWeb.Models
     {
         public ViewProfileViewModel(RequestProfileViewModel view)
         {
-            this.CountryName = view.CountryName;
+            this.Birthday = view.Birthday;
             this.Gender = view.Gender;
+            this.SelectedCountry = view.SelectedCountry;
+            this.Countries = view.Countries;
         }
 
         public string Messsage { get; set; }

@@ -12,7 +12,11 @@ namespace MotivationalMortality
         {
             return new List<string>()
             {
-                "Mexico"
+                "Mexico",
+                "Japan",
+                "United States of America",
+                "France",
+                "Brazil"
             };
         }
     }

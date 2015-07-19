@@ -16,7 +16,8 @@ namespace MotivationalMortailityWeb.Controllers
         {
             var view = new RequestProfileViewModel();
             view.Birthday = new DateTime(1981, 04, 29);
-            view.CountryName = "Mexico";
+            view.SelectedCountry = "Mexico";
+            view.Countries = CountryCatalog.GetCountryList();
             view.Gender = GenderType.Male;
             return View(view);
         }
@@ -26,9 +27,10 @@ namespace MotivationalMortailityWeb.Controllers
         {
             string csvProfilesPath = Server.MapPath(@"bin\MortalityProfiles.csv");
             MortalityReporter reporter = new MortalityReporter(new TimeProvider(), csvProfilesPath);
-            LifeReport report = reporter.GetLifeReport(view.Birthday.Value, view.Gender.Value, view.CountryName);
+            LifeReport report = reporter.GetLifeReport(view.Birthday.Value, view.Gender.Value, view.SelectedCountry);
 
             ViewProfileViewModel responseView = new ViewProfileViewModel(view);
+            responseView.Countries = CountryCatalog.GetCountryList();
             responseView.Messsage = MortalityReporter.FormatMessage(report);
             responseView.LifeExpectancyGraph = CreateExpectancyGraph(report.WeeksLived, report.ExpectedWeeks);
             return this.View("Report", responseView);
