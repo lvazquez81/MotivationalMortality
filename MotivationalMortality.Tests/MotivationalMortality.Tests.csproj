@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvMortalityReaderTests.cs" />
     <Compile Include="MortalityReportTests.cs" />
     <Compile Include="WeekCalculatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
